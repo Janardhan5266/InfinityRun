@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Run</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        canvas{
+            position: fixed;
+
+        }
+
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+
+    <script>
+        window.addEventListener('load',function(){
+
+
+
+          const canvas = document.querySelector('canvas');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          const c = canvas.getContext('2d');
+
+             
+          
+
+
+             if('DeviceOrientationEvent' in window){
+          window.addEventListener('deviceorientation',function(e){
+
+                runner.velocity = e.gamma;
+
+            
+                
+          })
+        }
+
+
+                class Runner{
+                    constructor(x,y,size,velocity,color){
+                        this.x = x;
+                        this.y = y;
+                        this.size = size;
+                        this.velocity = velocity;
+                        this.color = color;
+                    }
+                     draw(){
+                           c.beginPath();
+                           c.fillStyle = this.color;
+                           c.rect(this.x,this.y,this.size,this.size);
+                           c.fill();
+                           c.closePath();
+                           
+                     }
+                     run(){
+                        this.draw();
+                        this.x = this.x + this.velocity;
+                     }
+                      
+                }
+
+               let runner  = new Runner(canvas.width/2 - 50,canvas.height/2 - 50,100,0,'black');
+
+               function animate(){
+                requestAnimationFrame(animate);
+                  c.clearRect(0,0,canvas.width,canvas.height);
+                   runner.run();
+               }
+
+                 animate();
+});
+    </script>
+</body>
+</html>
